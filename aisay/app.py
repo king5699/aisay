@@ -61,4 +61,7 @@ if __name__ == '__main__':
     init_chatbot('real_estates_sale',
                  search_type='similarity_score_threshold',
                  search_kwargs={'score_threshold': 0.7})
+    init_chatbot('ai_education_sale',
+                 search_type='similarity_score_threshold',
+                 search_kwargs={'score_threshold': 0.7})
     launch_gradio()
