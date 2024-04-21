@@ -37,7 +37,7 @@ class ChatBot:
                  descrption: str,
                  corpusname: str,
                  dbname: str,
-                 dbtype: str = DB.FAISS,
+                 dbtype: DB = DB.FAISS,
                  embedding: Optional[Embeddings] = None):
         """
         :param name: 机器人名称

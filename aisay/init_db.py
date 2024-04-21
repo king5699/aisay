@@ -4,7 +4,7 @@
 # @FileName: init_db.py
 import time
 from typing import List
-from aisay.biz import bots_base
+from aisay.bots import bots_base
 from aisay.chatbot import DB
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
@@ -47,7 +47,7 @@ def run(bots):
             continue
         docs = create_docs_from_corpus(bot.corpus_path)
         if bot.dbtype == DB.FAISS:
-            init_local_faiss_db(docs, bot.embedding)
+            init_local_faiss_db(docs, bot.embedding, bot.dbpath)
             print(f'success，cost time：{time.perf_counter()-stime:.2f}s\n')
         else:
             print(f'fail, unsupported dbtype="{bot.dbtype}"\n')
