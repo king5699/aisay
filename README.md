@@ -17,5 +17,5 @@ a simple chatbot based on llm and vectorstore
 5. 打开浏览器访问:  
 http://127.0.0.1:7860
 
-demo演示
-![demo.png](/static/demo.png "demo")
+### demo演示
+![demo.png](/static/demo.png "demo: 海棠")
