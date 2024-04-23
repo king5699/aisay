@@ -4,15 +4,18 @@
 # @FileName: app.py
 import os
 import gradio as gr
-from aisay import STATICDIR
-from aisay.biz import activated_bots
+from aisay.conf import STATICDIR
+from aisay.bots import bots_dict
 
 
 def do_chat(message, history):
     print(f'[history]{history}')
     print(f'[message]{message}')
-    chatbot = activated_bots['海棠']
-    return chatbot.reply(message)
+
+    chatbot = bots_dict['海棠']
+    answer = chatbot.reply(message)
+    print(f'[answer]{answer}')
+    return answer
 
 
 def launch_gradio():

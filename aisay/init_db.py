@@ -4,13 +4,11 @@
 # @FileName: init_db.py
 import time
 from typing import List
-from aisay.bots import bots_base
-from aisay.chatbot import DB
+from aisay.bots import bots_db
+from aisay.db import ChatDB
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
-from langchain_core.embeddings import Embeddings
 from langchain_community.document_loaders import TextLoader
-from langchain_community.vectorstores import FAISS
 
 
 def create_docs_from_corpus(corpus_path: str) -> List[Document]:
@@ -29,29 +27,17 @@ def create_docs_from_corpus(corpus_path: str) -> List[Document]:
     return docs
 
 
-def init_local_faiss_db(docs: List[Document], embedding: Embeddings, dbpath: str):
-    db = FAISS.from_documents(docs, embedding)
-    db.save_local(dbpath)
-
-
-def run(bots):
-    print('=== aisay.init_db.run(bots) ===')
-    dbnames = []
-    for bot in bots:
-        stime = time.perf_counter()
-        print(f'bot.name="{bot.name}"')
-        print(f'bot.dbname="{bot.dbname}"')
-        print(f'bot.corpus_path="{bot.corpus_path}"')
-        if bot.dbname in dbnames:
-            print(f'Duplicate dbname Error')
-            continue
-        docs = create_docs_from_corpus(bot.corpus_path)
-        if bot.dbtype == DB.FAISS:
-            init_local_faiss_db(docs, bot.embedding, bot.dbpath)
-            print(f'success，cost time：{time.perf_counter()-stime:.2f}s\n')
-        else:
-            print(f'fail, unsupported dbtype="{bot.dbtype}"\n')
+def init_db(db: ChatDB):
+    stime = time.perf_counter()
+    print(f'dbname="{db.dbname}"')
+    print(f'corpus_path="{db.corpus_path}"')
+    docs = create_docs_from_corpus(db.corpus_path)
+    db.save(docs)
+    print(f'success，cost time：{time.perf_counter()-stime:.2f}s\n')
 
 
 if __name__ == '__main__':
-    run(bots_base)
+    print('=== aisay.init_db ===\n')
+    for k, v in bots_db.items():
+        print(f'{k}\n------------------------------')
+        init_db(v)
